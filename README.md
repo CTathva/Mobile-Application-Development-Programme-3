@@ -15,5 +15,5 @@ On successful SIGN UP proceed to the next Login activity. Here the user should S
 
 <div align="center" style="width:500; background-color:white; height:200px; overflow:scroll; overflow-x: scroll;overflow-y: hidden;">
 <img  src="images/pgm1.PNG" width="300" height="600" >
-<img  src="images/pgm1.PNG" width="300" height="600" >
+<img  src="images/pm3.PNG" width="300" height="600" >
 </div>
