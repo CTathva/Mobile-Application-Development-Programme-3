@@ -14,8 +14,10 @@ import com.google.android.material.textfield.TextInputLayout;
 public class LoginActivity extends AppCompatActivity implements Base{
     TextInputLayout mEditTextName, mEditTextPassword;
     Button mButton;
-    public static final String Shared_PRIF_NAME = "MyPrefs";
     String mUserName, mPassword;
+    Bundle mBundle;
+    int count=0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,14 @@ public class LoginActivity extends AppCompatActivity implements Base{
 
     @Override
     public void init() {
+        mBundle = getIntent().getExtras();
+        if(mBundle!=null)
+        {
+            mUserName= mBundle.getString("NAME");
+            mPassword=mBundle.getString("PASSWORD");
+
+        }
+
         mEditTextName=(TextInputLayout)findViewById(R.id.userNameTextInputLayout);
         mEditTextPassword=(TextInputLayout)findViewById(R.id.passwordTextInputLayout);
         mButton=(Button)findViewById(R.id.login_button);
@@ -37,18 +47,20 @@ public class LoginActivity extends AppCompatActivity implements Base{
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences prefs = getSharedPreferences(Shared_PRIF_NAME, MODE_PRIVATE);
-                 mUserName = prefs.getString("name", "name not found");
-                 mPassword = prefs.getString("password", "");
-                if (mUserName.equals(mEditTextName.getEditText().getText().toString()) && mPassword.equals(mEditTextPassword.getEditText().getText().toString()))
-                {
-                    Toast.makeText(LoginActivity.this, "Successful Login", Toast.LENGTH_SHORT).show();
+                if (count < 3) {
+                    if (mUserName.equals(mEditTextName.getEditText().getText().toString()) && mPassword.equals(mEditTextPassword.getEditText().getText().toString())) {
+                        Toast.makeText(LoginActivity.this, "Successful Login", Toast.LENGTH_SHORT).show();
+                    } else {
+                        count++;
+                        Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else
                 {
-                    Toast.makeText(LoginActivity.this, "Invalid Username or Password", Toast.LENGTH_SHORT).show();
+                    mButton.setEnabled(false);
                 }
             }
+
         });
     }
 }

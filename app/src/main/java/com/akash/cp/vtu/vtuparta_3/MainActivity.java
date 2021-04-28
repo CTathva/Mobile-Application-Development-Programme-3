@@ -18,8 +18,10 @@ import java.util.regex.Pattern;
 public class MainActivity extends AppCompatActivity implements Base{
     TextInputLayout mEditTextName, mEditTextPassword;
     Button mButton;
+    Bundle bundle;
     String mUserName, mPassword;
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
+    Intent mIntent;
     public static final String Shared_PRIF_NAME = "MyPrefs";
      /*
     (?=.*\d)      #   must contains one digit from 0-9
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements Base{
 
     @Override
     public void init() {
+        mIntent=new Intent();
         mEditTextName=(TextInputLayout) findViewById(R.id.userNameTextInputLayout);
         mEditTextPassword=(TextInputLayout)findViewById(R.id.passwordTextInputLayout);
         mButton=(Button)findViewById(R.id.signupbtn);
@@ -62,12 +65,12 @@ public class MainActivity extends AppCompatActivity implements Base{
                 {
                     if(PASSWORD_PATTERN.matcher(mPassword).matches())
                     {
-                        SharedPreferences.Editor editor = getSharedPreferences(Shared_PRIF_NAME, MODE_PRIVATE).edit();
-                        editor.putString("name", mUserName);
-                        editor.putString("password", mPassword);
-                        editor.apply();
-                        startActivity(new Intent(MainActivity.this,LoginActivity.class));
-                        finish();
+                         bundle = new Bundle();
+                        bundle.putString("NAME", mUserName);
+                        bundle.putString("PASSWORD", mPassword);
+                        mIntent.setClass(MainActivity.this, LoginActivity.class);
+                        mIntent.putExtras(bundle);
+                        startActivity(mIntent);
                     }
                     else
                     {
